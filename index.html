@@ -52,15 +52,25 @@
         }
         
         /* Custom scrollbar */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: #07464e #eafee3;
+        }
+
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
         ::-webkit-scrollbar-track {
             background: #eafee3;
         }
         ::-webkit-scrollbar-thumb {
             background: #07464e;
-            border-radius: 4px;
+            border: 2px solid #eafee3;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0a5b65; /* Lighter teal for hover */
         }
 
         .hero-gradient {
@@ -110,7 +120,7 @@
             <div class="absolute inset-0 z-0">
                 <picture>
                     <source media="(max-width: 768px)" srcset="input_file_3.png">
-                    <img src="heroDesktop1.png" alt="WAT Shower Background" class="w-full h-full object-cover opacity-70 contrast-125">
+                    <img src="heroMobile1.png" alt="WAT Shower Background" class="w-full h-full object-cover opacity-70 contrast-125">
                 </picture>
                 <div class="absolute inset-0 hero-gradient"></div>
             </div>
@@ -315,7 +325,7 @@
                     <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
                         <div class="text-center space-y-6">
                             <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 grayscale hover:grayscale-0 transition-all duration-700">
-                                <img src="ronWilson1" alt="Late Ron Wilson" class="w-full h-full object-cover">
+                                <img src="ronWilson1.png" alt="Late Ron Wilson" class="w-full h-full object-cover">
                             </div>
                             <div class="space-y-2">
                                 <h4 class="text-sm font-bold tracking-widest uppercase">Late Ron Wilson</h4>
