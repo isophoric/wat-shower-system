@@ -18,12 +18,14 @@
                 extend: {
                     colors: {
                         brand: {
-                            bg: '#eafee3',
-                            accent: '#02181b',
-                            text: '#02181b', 
-                            /* 07464e */
-                        },
-                        onyx: '#02181b'
+                            bg: 'var(--brand-bg)',
+                            accent: 'var(--brand-accent)',
+                            text: 'var(--brand-text)',
+                            nav: 'var(--nav-bg)',
+                            'nav-fg': 'var(--nav-fg)',
+                            'btn-bg': 'var(--button-bg)',
+                            'btn-fg': 'var(--button-fg)'
+                        }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -42,6 +44,39 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
+        :root {
+            --brand-bg: #eafee3;
+            --brand-accent: #02181b;
+            --brand-text: #02181b;
+            --nav-bg: #02181b;
+            --nav-fg: #eafee3;
+            --button-bg: #eafee3;
+            --button-fg: #02181b;
+            --hero-overlay: rgba(2, 24, 27, 0.8);
+        }
+
+        body.theme-dark {
+            --brand-bg: #02181b;
+            --brand-accent: #eafee3;
+            --brand-text: #eafee3;
+            --nav-bg: #010d0f;
+            --nav-fg: #eafee3;
+            --button-bg: #eafee3;
+            --button-fg: #02181b;
+            --hero-overlay: rgba(1, 13, 15, 0.9);
+        }
+
+        body.theme-hc {
+            --brand-bg: #000000;
+            --brand-accent: #ffffff;
+            --brand-text: #ffffff;
+            --nav-bg: #000000;
+            --nav-fg: #ffffff;
+            --button-bg: #ffffff;
+            --button-fg: #000000;
+            --hero-overlay: rgba(0, 0, 0, 0.95);
+        }
+
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
@@ -55,69 +90,94 @@
         /* Custom scrollbar */
         html {
             scrollbar-width: thin;
-            scrollbar-color: #02181b #eafee3;
+            scrollbar-color: var(--brand-accent) var(--brand-bg);
         }
 
         ::-webkit-scrollbar {
             width: 10px;
         }
         ::-webkit-scrollbar-track {
-            background: #eafee3;
+            background: var(--brand-bg);
         }
         ::-webkit-scrollbar-thumb {
-            background: #02181b;
-            border: 2px solid #eafee3;
+            background: var(--brand-accent);
+            border: 2px solid var(--brand-bg);
             border-radius: 10px;
             transition: background 0.3s ease;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #0a5b65; /* Lighter teal for hover */
+            background: #0a5b65;
         }
 
         .hero-gradient {
-            background: linear-gradient(to right, rgba(2, 24, 27, 0.8) 0%, transparent 60%);
+            background: linear-gradient(to right, var(--hero-overlay) 0%, transparent 60%);
         }
         @media (max-width: 768px) {
             .hero-gradient {
-                background: linear-gradient(to top, rgba(2, 24, 27, 0.7) 0%, transparent 100%);
+                background: linear-gradient(to top, var(--hero-overlay) 0%, transparent 100%);
             }
+        }
+
+        /* Active theme button styling */
+        .theme-btn.active {
+            background-color: var(--brand-accent);
+            color: var(--brand-bg);
+            border-color: var(--brand-accent);
         }
     </style>
 </head>
-<body class="bg-brand-bg text-brand-text antialiased overflow-x-hidden">
+<body class="bg-brand-bg text-brand-text antialiased overflow-x-hidden theme-light">
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 w-full z-[100] transition-all duration-500 bg-brand-accent py-4">
-        <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-between text-brand-bg">
+    <nav id="navbar" class="fixed top-0 w-full z-[100] transition-all duration-500 bg-brand-nav py-4">
+        <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-between text-brand-nav-fg">
             <div class="flex items-center gap-8">
                 <a href="#hero" class="font-serif text-sm tracking-[0.2em] font-medium uppercase hover:opacity-80 transition-opacity">
                     Wilson Adaptive Technologies
                 </a>
                 <div class="hidden lg:flex items-center gap-6">
-                    <a href="#hero" class="text-[11px] font-semibold tracking-wider text-brand-bg/70 hover:text-brand-bg uppercase transition-colors">Home</a>
-                    <a href="#features" class="text-[11px] font-semibold tracking-wider text-brand-bg/70 hover:text-brand-bg uppercase transition-colors">Features</a>
-                    <a href="#materials" class="text-[11px] font-semibold tracking-wider text-brand-bg/70 hover:text-brand-bg uppercase transition-colors">Materials</a>
-                    <a href="#about" class="text-[11px] font-semibold tracking-wider text-brand-bg/70 hover:text-brand-bg uppercase transition-colors">About</a>
+                    <a href="#hero" class="text-[11px] font-semibold tracking-wider text-brand-nav-fg/70 hover:text-brand-nav-fg uppercase transition-colors">Home</a>
+                    <a href="#features" class="text-[11px] font-semibold tracking-wider text-brand-nav-fg/70 hover:text-brand-nav-fg uppercase transition-colors">Features</a>
+                    <a href="#materials" class="text-[11px] font-semibold tracking-wider text-brand-nav-fg/70 hover:text-brand-nav-fg uppercase transition-colors">Materials</a>
+                    <a href="#about" class="text-[11px] font-semibold tracking-wider text-brand-nav-fg/70 hover:text-brand-nav-fg uppercase transition-colors">About</a>
                 </div>
             </div>
             
-            <button id="menu-toggle" class="lg:hidden p-2">
-                <i data-lucide="menu" id="menu-icon"></i>
-            </button>
+            <div class="flex items-center gap-4">
+                <!-- Theme Toggler -->
+                <div class="hidden md:flex items-center gap-2 px-2 py-1 border border-brand-nav-fg/20 rounded-full">
+                    <button onclick="setTheme('light')" class="theme-btn text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded-full hover:bg-brand-nav-fg/10 transition-colors" id="btn-light">Light</button>
+                    <button onclick="setTheme('dark')" class="theme-btn text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded-full hover:bg-brand-nav-fg/10 transition-colors" id="btn-dark">Dark</button>
+                    <button onclick="setTheme('hc')" class="theme-btn text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded-full hover:bg-brand-nav-fg/10 transition-colors" id="btn-hc">HC</button>
+                </div>
+                
+                <button id="menu-toggle" class="lg:hidden p-2 text-brand-nav-fg">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="hidden fixed inset-0 top-[60px] bg-brand-accent z-[99] flex flex-col p-8 gap-8 lg:hidden">
-            <a href="#hero" class="mobile-link text-lg font-medium text-brand-bg uppercase tracking-widest">Home</a>
-            <a href="#features" class="mobile-link text-lg font-medium text-brand-bg uppercase tracking-widest">Features</a>
-            <a href="#materials" class="mobile-link text-lg font-medium text-brand-bg uppercase tracking-widest">Materials</a>
-            <a href="#about" class="mobile-link text-lg font-medium text-brand-bg uppercase tracking-widest">About</a>
+        <div id="mobile-menu" class="hidden fixed inset-0 top-[60px] bg-brand-nav z-[99] flex flex-col p-8 gap-8 lg:hidden">
+            <a href="#hero" class="mobile-link text-lg font-medium text-brand-nav-fg uppercase tracking-widest">Home</a>
+            <a href="#features" class="mobile-link text-lg font-medium text-brand-nav-fg uppercase tracking-widest">Features</a>
+            <a href="#materials" class="mobile-link text-lg font-medium text-brand-nav-fg uppercase tracking-widest">Materials</a>
+            <a href="#about" class="mobile-link text-lg font-medium text-brand-nav-fg uppercase tracking-widest">About</a>
+            
+            <div class="mt-auto pt-8 border-t border-brand-nav-fg/10">
+                <p class="text-[10px] uppercase tracking-widest text-brand-nav-fg/60 mb-4">Display Mode</p>
+                <div class="flex gap-4">
+                    <button onclick="setTheme('light')" class="text-xs uppercase tracking-widest text-brand-nav-fg py-2 px-4 border border-brand-nav-fg/20 rounded-sm">Light</button>
+                    <button onclick="setTheme('dark')" class="text-xs uppercase tracking-widest text-brand-nav-fg py-2 px-4 border border-brand-nav-fg/20 rounded-sm">Dark</button>
+                    <button onclick="setTheme('hc')" class="text-xs uppercase tracking-widest text-brand-nav-fg py-2 px-4 border border-brand-nav-fg/20 rounded-sm">Contrast</button>
+                </div>
+            </div>
         </div>
     </nav>
 
     <main>
         <!-- Hero Section -->
-        <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden bg-brand-accent">
+        <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden bg-brand-nav">
             <div class="absolute inset-0 z-0">
                 <picture>
                     <source media="(max-width: 768px)" srcset="heroMobile1.png">
@@ -128,16 +188,17 @@
 
             <div class="relative z-10 max-w-[1400px] w-full mx-auto px-6 lg:px-12">
                 <div class="max-w-xl text-center lg:text-left fade-in">
-                    <p class="text-xs lg:text-[10px] font-bold tracking-[0.3em] text-brand-bg/60 mb-4 uppercase">
+                    <p class="text-xs lg:text-[10px] font-bold tracking-[0.3em] text-brand-nav-fg mb-4 uppercase opacity-60">
                         WAT Adaptive Shower System
                     </p>
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-semibold text-brand-bg leading-[1.05] mb-6">
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-semibold text-brand-nav-fg leading-[1.05] mb-6">
                         Open up a new world of digital dignity
                     </h1>
-                    <p class="text-sm md:text-base text-brand-bg/80 font-light leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0">
+                    <p class="text-sm md:text-base text-brand-nav-fg font-light leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0 opacity-80">
                         Revolutionary accessibility meets modular innovation. Designed for individuals with mobility challenges to experience ultimate independence without compromise.
                     </p>
-                    <a href="#product" class="inline-block px-10 py-3 border border-brand-bg/40 text-brand-bg text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-brand-bg hover:text-brand-accent transition-all duration-300">
+                    <!-- STANDOUT BUTTON: Background is brand-bg (Accent color context), text is brand-accent (Dark) -->
+                    <a href="#product" class="inline-block px-10 py-3 bg-brand-btn-bg text-brand-btn-fg text-[11px] font-bold tracking-[0.2em] uppercase hover:opacity-90 transition-all duration-300">
                         Shop Now
                     </a>
                 </div>
@@ -311,9 +372,8 @@
                             </p>
                         </div>
                     </div>
-                    <div class="relative group overflow-hidden bg-brand-accent/10 fade-in" style="transition-delay: 200ms;">
-                        <div class="absolute inset-0 bg-brand-accent/20 mix-blend-multiply opacity-20 group-hover:opacity-10 transition-opacity duration-700"></div>
-                        <img src="innovationLab.png" alt="Innovation Lab" class="w-full h-full object-cover grayscale-[40%]">
+                    <div class="relative group overflow-hidden bg-brand-accent/5 border border-brand-accent/10 rounded-sm shadow-sm fade-in" style="transition-delay: 200ms;">
+                        <img src="innovationLab.png" alt="Innovation Lab" class="w-full h-full object-cover">
                     </div>
                 </div>
 
@@ -325,7 +385,8 @@
                     
                     <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
                         <div class="text-center space-y-6">
-                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 grayscale hover:grayscale-0 transition-all duration-700">
+                            <!-- Removed grayscale -->
+                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 transition-all duration-700">
                                 <img src="ronWilson1.png" alt="Late Ron Wilson" class="w-full h-full object-cover">
                             </div>
                             <div class="space-y-2">
@@ -337,7 +398,8 @@
                             </div>
                         </div>
                         <div class="text-center space-y-6">
-                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 grayscale hover:grayscale-0 transition-all duration-700">
+                            <!-- Removed grayscale -->
+                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 transition-all duration-700">
                                 <img src="wendyWilson1.png" alt="Wendy Wilson" class="w-full h-full object-cover">
                             </div>
                             <div class="space-y-2">
@@ -349,7 +411,8 @@
                             </div>
                         </div>
                         <div class="text-center space-y-6">
-                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 grayscale hover:grayscale-0 transition-all duration-700">
+                            <!-- Removed grayscale -->
+                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 transition-all duration-700">
                                 <img src="jaredGrogan1.png" alt="Dr. Jared Grogan" class="w-full h-full object-cover">
                             </div>
                             <div class="space-y-2">
@@ -366,13 +429,13 @@
         </section>
 
         <!-- Global Partnership CTA -->
-        <section class="bg-brand-accent py-20 px-6 text-brand-bg fade-in">
+        <section class="bg-brand-nav py-20 px-6 text-brand-nav-fg fade-in">
             <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
                 <div class="space-y-2">
                     <h2 class="text-2xl font-semibold tracking-tight">Expand our impact globally.</h2>
-                    <p class="text-brand-bg/40 text-sm font-light uppercase tracking-[0.2em]">Catalyzing a shift in adaptive technology.</p>
+                    <p class="text-brand-nav-fg text-sm font-light uppercase tracking-[0.2em] opacity-40">Catalyzing a shift in adaptive technology.</p>
                 </div>
-                <a href="mailto:info@wilsonadaptive.com" class="px-8 py-3 bg-brand-bg text-brand-accent text-[10px] font-bold tracking-widest uppercase hover:opacity-90 transition-opacity">
+                <a href="mailto:info@wilsonadaptive.com" class="px-8 py-3 bg-brand-btn-bg text-brand-btn-fg text-[10px] font-bold tracking-widest uppercase hover:opacity-90 transition-opacity">
                     Contact Partnership
                 </a>
             </div>
@@ -380,49 +443,66 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-brand-accent border-t border-brand-bg/5 py-16 px-6 text-brand-bg">
+    <footer class="bg-brand-nav border-t border-brand-bg/5 py-16 px-6 text-brand-nav-fg">
         <div class="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12">
             <div class="col-span-2">
                 <h5 class="font-serif text-sm tracking-[0.2em] font-medium uppercase mb-8">WAT</h5>
-                <p class="text-xs text-brand-bg/40 leading-relaxed max-w-xs font-light">
+                <p class="text-xs text-brand-nav-fg leading-relaxed max-w-xs font-light opacity-40">
                     Pioneering modular in-home hygiene systems. Proudly designed and researched in Detroit, Michigan.
                 </p>
             </div>
             <div>
-                <h6 class="text-[10px] font-bold tracking-[0.2em] text-brand-bg/80 uppercase mb-6">Product</h6>
-                <div class="flex flex-col gap-4 text-xs font-medium text-brand-bg/40">
-                    <a href="#hero" class="hover:text-brand-bg transition-colors">Overview</a>
-                    <a href="#features" class="hover:text-brand-bg transition-colors">Technology</a>
-                    <a href="#materials" class="hover:text-brand-bg transition-colors">Sustainability</a>
+                <h6 class="text-[10px] font-bold tracking-[0.2em] text-brand-nav-fg uppercase mb-6 opacity-80">Product</h6>
+                <div class="flex flex-col gap-4 text-xs font-medium text-brand-nav-fg opacity-40">
+                    <a href="#hero" class="hover:opacity-100 transition-opacity">Overview</a>
+                    <a href="#features" class="hover:opacity-100 transition-opacity">Technology</a>
+                    <a href="#materials" class="hover:opacity-100 transition-opacity">Sustainability</a>
                 </div>
             </div>
             <div>
-                <h6 class="text-[10px] font-bold tracking-[0.2em] text-brand-bg/80 uppercase mb-6">Company</h6>
-                <div class="flex flex-col gap-4 text-xs font-medium text-brand-bg/40">
-                    <a href="#about" class="hover:text-brand-bg transition-colors">About Us</a>
-                    <a href="#" class="hover:text-brand-bg transition-colors">News</a>
-                    <a href="#" class="hover:text-brand-bg transition-colors">Careers</a>
+                <h6 class="text-[10px] font-bold tracking-[0.2em] text-brand-nav-fg uppercase mb-6 opacity-80">Company</h6>
+                <div class="flex flex-col gap-4 text-xs font-medium text-brand-nav-fg opacity-40">
+                    <a href="#about" class="hover:opacity-100 transition-opacity">About Us</a>
+                    <a href="#" class="hover:opacity-100 transition-opacity">News</a>
+                    <a href="#" class="hover:opacity-100 transition-opacity">Careers</a>
                 </div>
             </div>
             <div class="col-span-2 lg:col-span-1">
-                <h6 class="text-[10px] font-bold tracking-[0.2em] text-brand-bg/80 uppercase mb-6">Connect</h6>
-                <div class="flex flex-col gap-4 text-xs font-medium text-brand-bg/40">
-                    <a href="#" class="hover:text-brand-bg transition-colors">LinkedIn</a>
-                    <a href="#" class="hover:text-brand-bg transition-colors">Instagram</a>
-                    <a href="#" class="hover:text-brand-bg transition-colors">Facebook</a>
+                <h6 class="text-[10px] font-bold tracking-[0.2em] text-brand-nav-fg uppercase mb-6 opacity-80">Connect</h6>
+                <div class="flex flex-col gap-4 text-xs font-medium text-brand-nav-fg opacity-40">
+                    <a href="#" class="hover:opacity-100 transition-opacity">LinkedIn</a>
+                    <a href="#" class="hover:opacity-100 transition-opacity">Instagram</a>
+                    <a href="#" class="hover:opacity-100 transition-opacity">Facebook</a>
                 </div>
             </div>
         </div>
-        <div class="max-w-[1400px] mx-auto mt-20 pt-8 border-t border-brand-bg/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-brand-bg/20 font-bold">
+        <div class="max-w-[1400px] mx-auto mt-20 pt-8 border-t border-brand-bg/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-brand-nav-fg font-bold opacity-20">
             <p>© 2026 Wilson Adaptive Technologies</p>
             <div class="flex gap-8">
-                <a href="#" class="hover:text-brand-bg/60 transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-brand-bg/60 transition-colors">Terms of Use</a>
+                <a href="#" class="hover:opacity-60 transition-opacity">Privacy Policy</a>
+                <a href="#" class="hover:opacity-60 transition-opacity">Terms of Use</a>
             </div>
         </div>
     </footer>
 
     <script>
+        // Theme Management
+        function setTheme(theme) {
+            document.body.classList.remove('theme-light', 'theme-dark', 'theme-hc');
+            document.body.classList.add('theme-' + theme);
+            
+            // Update active state for buttons
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + theme);
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            localStorage.setItem('wat-theme', theme);
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('wat-theme') || 'light';
+        setTheme(savedTheme);
+
         // Lucide Icons Initialization
         lucide.createIcons();
 
@@ -431,24 +511,31 @@
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 navbar.classList.add('py-2');
-                navbar.classList.add('bg-brand-accent/95');
+                const isHC = document.body.classList.contains('theme-hc');
+                navbar.classList.add(isHC ? 'bg-black' : 'bg-brand-nav/95');
             } else {
                 navbar.classList.remove('py-2');
-                navbar.classList.remove('bg-brand-accent/95');
+                navbar.classList.remove('bg-brand-nav/95', 'bg-black');
             }
         });
 
         // Mobile Menu Logic
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
         let isMenuOpen = false;
+
+        function updateMenuIcon() {
+            menuToggle.innerHTML = ''; // clear current
+            const icon = document.createElement('i');
+            icon.setAttribute('data-lucide', isMenuOpen ? 'x' : 'menu');
+            menuToggle.appendChild(icon);
+            lucide.createIcons();
+        }
 
         menuToggle.addEventListener('click', () => {
             isMenuOpen = !isMenuOpen;
             mobileMenu.classList.toggle('hidden');
-            menuIcon.setAttribute('data-lucide', isMenuOpen ? 'x' : 'menu');
-            lucide.createIcons();
+            updateMenuIcon();
         });
 
         // Close menu on link click
@@ -456,8 +543,7 @@
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
                 isMenuOpen = false;
-                menuIcon.setAttribute('data-lucide', 'menu');
-                lucide.createIcons();
+                updateMenuIcon();
             });
         });
 
