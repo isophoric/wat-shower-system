@@ -21,7 +21,6 @@
                             bg: '#eafee3',
                             accent: '#07464e',
                             text: '#07464e', 
-                            nav: '#021518',
                             /* 07464e */
                         },
                         onyx: '#07464e'
@@ -34,21 +33,6 @@
                         widest: '0.3em',
                         wider: '0.15em',
                     }
-                    let isMenuOpen = false;
-
-                    function updateMenuIcon() {
-                        menuToggle.innerHTML = ''; // Clear current icon
-                        const icon = document.createElement('i');
-                        icon.setAttribute('data-lucide', isMenuOpen ? 'x' : 'menu');
-                        menuToggle.appendChild(icon);
-                        lucide.createIcons(); // Re-render the SVGs
-                    }
-
-                    menuToggle.addEventListener('click', () => {
-                        isMenuOpen = !isMenuOpen;
-                        mobileMenu.classList.toggle('hidden');
-                        updateMenuIcon();
-                    });
                 }
             }
         }
@@ -329,7 +313,7 @@
                     </div>
                     <div class="relative group overflow-hidden bg-brand-accent/10 fade-in" style="transition-delay: 200ms;">
                         <div class="absolute inset-0 bg-brand-accent/20 mix-blend-multiply opacity-20 group-hover:opacity-10 transition-opacity duration-700"></div>
-                        <img src="innovationLab.png" alt="Innovation Lab" class="w-full h-full object-cover">
+                        <img src="innovationLab.png" alt="Innovation Lab" class="w-full h-full object-cover grayscale-[40%]">
                     </div>
                 </div>
 
@@ -341,7 +325,7 @@
                     
                     <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
                         <div class="text-center space-y-6">
-                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 transition-all duration-700">
+                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 grayscale hover:grayscale-0 transition-all duration-700">
                                 <img src="ronWilson1.png" alt="Late Ron Wilson" class="w-full h-full object-cover">
                             </div>
                             <div class="space-y-2">
@@ -353,7 +337,7 @@
                             </div>
                         </div>
                         <div class="text-center space-y-6">
-                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 transition-all duration-700">
+                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 grayscale hover:grayscale-0 transition-all duration-700">
                                 <img src="wendyWilson1.png" alt="Wendy Wilson" class="w-full h-full object-cover">
                             </div>
                             <div class="space-y-2">
@@ -365,7 +349,7 @@
                             </div>
                         </div>
                         <div class="text-center space-y-6">
-                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 transition-all duration-700">
+                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-brand-accent/20 grayscale hover:grayscale-0 transition-all duration-700">
                                 <img src="jaredGrogan1.png" alt="Dr. Jared Grogan" class="w-full h-full object-cover">
                             </div>
                             <div class="space-y-2">
